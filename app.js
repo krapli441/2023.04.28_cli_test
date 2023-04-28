@@ -36,10 +36,27 @@ inquirer
       name: "title",
       message: "html 파일 내의 title 정보를 입력해주세요.",
     },
+    {
+      type: "list",
+      name: "create_root",
+      message: "html의 body 태그 자식으로 id가 root인 div를 생성하시겠습니까?",
+      choices: ["네", "아니오"],
+    },
+    {
+      type: "input",
+      name: "p_tag_innertext",
+      message: "body 태그 안의 p 태그 안에 들어갈 내용을 입력해주세요.",
+    },
+    {
+      type: "confirm",
+      name: "confirm",
+      message: "생성하시겠습니까?",
+    },
   ])
   .then((answers) => {
     console.log("입력된 값:", answers);
-    fs.writeFileSync(`${answers.fileName}.html`, htmlForm(answers.title));
+    fs.writeFileSync(
+      `${answers.fileName}.html`,
+      htmlForm(answers.title, "<div id=#root></div>", answers.p_tag_innertext)
+    );
   });
-
-console.log(title);
