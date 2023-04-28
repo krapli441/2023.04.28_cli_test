@@ -1,51 +1,72 @@
+#!/usr/bin/env node
 import inquirer from "inquirer";
 import fs from "fs";
 import htmlcreator from "./htmlcreator.js";
 
-inquirer
-  .prompt([
-    {
-      type: "input",
-      name: "fileName",
-      message:
-        "생성할 html 파일의 이름을 입력해주세요. (.html은 넣지 않으셔도 됩니다)",
-    },
-    {
-      type: "input",
-      name: "title",
-      message: "html 파일 내의 title 정보를 입력해주세요.",
-    },
-    {
-      type: "list",
-      name: "create_root",
-      message: "html의 body 태그 자식으로 id가 root인 div를 생성하시겠습니까?",
-      choices: ["네", "아니오"],
-    },
-    {
-      type: "input",
-      name: "p_tag_innertext",
-      message: "body 태그 안의 p 태그 안에 들어갈 내용을 입력해주세요.",
-    },
-    {
-      type: "confirm",
-      name: "confirm",
-      message: "생성하시겠습니까?",
-    },
-  ])
-  .then((answers) => {
-    console.log(
-      "파일이 생성되었습니다. result 폴더를 확인해 주세요. 다음은 입력하신 값입니다:",
-      answers
-    );
-    let rootHtml = "";
-    if (answers.create_root === "네") {
-      rootHtml = `<div id="root"></div>`;
-    } else {
-      rootHtml = "";
-    }
+import { Command } from "commander";
+import { exec } from "child_process";
 
-    fs.writeFileSync(
-      `./result/${answers.fileName}.html`,
-      htmlcreator(answers.title, rootHtml, answers.p_tag_innertext)
-    );
+const program = new Command();
+
+program
+  .command("create-html")
+  .description("Create HTML file")
+  .action(() => {
+    exec("./app.js", (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+      console.error(`stderr: ${stderr}`);
+    });
   });
+
+program.parse(process.argv);
+// inquirer
+//   .prompt([
+//     {
+//       type: "input",
+//       name: "fileName",
+//       message:
+//         "생성할 html 파일의 이름을 입력해주세요. (.html은 넣지 않으셔도 됩니다)",
+//     },
+//     {
+//       type: "input",
+//       name: "title",
+//       message: "html 파일 내의 title 정보를 입력해주세요.",
+//     },
+//     {
+//       type: "list",
+//       name: "create_root",
+//       message: "html의 body 태그 자식으로 id가 root인 div를 생성하시겠습니까?",
+//       choices: ["네", "아니오"],
+//     },
+//     {
+//       type: "input",
+//       name: "p_tag_innertext",
+//       message: "body 태그 안의 p 태그 안에 들어갈 내용을 입력해주세요.",
+//     },
+//     {
+//       type: "confirm",
+//       name: "confirm",
+//       message: "생성하시겠습니까?",
+//     },
+//   ])
+//   .then((answers) => {
+//     console.log(
+//       "파일이 생성되었습니다. result 폴더를 확인해 주세요. 다음은 입력하신 값입니다:",
+//       answers
+//     );
+//     let rootHtml = "";
+//     if (answers.create_root === "네") {
+//       rootHtml = `<div id="root"></div>`;
+//     } else {
+//       rootHtml = "";
+//     }
+
+//     fs.writeFileSync(
+//       `./result/${answers.fileName}.html`,
+//       htmlcreator(answers.title, rootHtml, answers.p_tag_innertext)
+//     );
+//   });

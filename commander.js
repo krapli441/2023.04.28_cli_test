@@ -1,10 +1,22 @@
-import { program } from "commander";
+#!/usr/bin/env node
+
+import { Command } from "commander";
+import { exec } from "child_process";
+
+const program = new Command();
 
 program
-  .version("0.1.1.1.2.0.0.00.2.2.00.2.2.0")
-  .description("asdasdasdasdasd")
-  .command("hello", 'Prints "Hello, World!"');
+  .command("create-html")
+  .description("Create HTML file")
+  .action(() => {
+    exec("node app.js", (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+      console.error(`stderr: ${stderr}`);
+    });
+  });
 
 program.parse(process.argv);
-
-program.command("hello");
