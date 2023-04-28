@@ -23,6 +23,7 @@ inquirer
   ])
   .then((answers) => {
     console.log("입력된 값:", answers);
+    fs.writeFileSync(`${answers.fileName}.html`, "hello guys");
     title = answers;
   });
 
