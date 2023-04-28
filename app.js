@@ -6,7 +6,23 @@ program.version("0.1.0v");
 program.description("commander 실행 테스트");
 program.parse(process.argv);
 
-let title = "";
+function htmlForm(title, root, innerText) {
+  let html = `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+  </head>
+  <body>
+    ${root}
+    <p>${innerText}</p>
+  </body>
+  </html>`;
+
+  return html;
+}
 
 inquirer
   .prompt([
@@ -23,8 +39,7 @@ inquirer
   ])
   .then((answers) => {
     console.log("입력된 값:", answers);
-    fs.writeFileSync(`${answers.fileName}.html`, "hello guys");
-    title = answers;
+    fs.writeFileSync(`${answers.fileName}.html`, htmlForm(answers.title));
   });
 
 console.log(title);
