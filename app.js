@@ -29,7 +29,8 @@ inquirer
     {
       type: "input",
       name: "fileName",
-      message: "생성할 html 파일의 이름을 입력해주세요.",
+      message:
+        "생성할 html 파일의 이름을 입력해주세요. (.html은 넣지 않으셔도 됩니다)",
     },
     {
       type: "input",
@@ -54,7 +55,10 @@ inquirer
     },
   ])
   .then((answers) => {
-    console.log("입력된 값:", answers);
+    console.log(
+      "파일이 생성되었습니다. result 폴더를 확인해 주세요. 다음은 입력하신 값입니다:",
+      answers
+    );
     let rootHtml = "";
     if (answers.create_root === "네") {
       rootHtml = `<div id="root"></div>`;
@@ -63,7 +67,7 @@ inquirer
     }
 
     fs.writeFileSync(
-      `${answers.fileName}.html`,
+      `./result/${answers.fileName}.html`,
       htmlForm(answers.title, rootHtml, answers.p_tag_innertext)
     );
   });
