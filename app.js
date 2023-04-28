@@ -1,11 +1,6 @@
 import inquirer from "inquirer";
-import { program } from "commander";
 import fs from "fs";
 import htmlcreator from "./htmlcreator.js";
-
-program.version("0.1.0v");
-program.description("commander 실행 테스트");
-program.parse(process.argv);
 
 inquirer
   .prompt([
