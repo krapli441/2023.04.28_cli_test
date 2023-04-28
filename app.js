@@ -55,8 +55,15 @@ inquirer
   ])
   .then((answers) => {
     console.log("입력된 값:", answers);
+    let rootHtml = "";
+    if (answers.create_root === "네") {
+      rootHtml = `<div id="root"></div>`;
+    } else {
+      rootHtml = "";
+    }
+
     fs.writeFileSync(
       `${answers.fileName}.html`,
-      htmlForm(answers.title, "<div id=#root></div>", answers.p_tag_innertext)
+      htmlForm(answers.title, rootHtml, answers.p_tag_innertext)
     );
   });
